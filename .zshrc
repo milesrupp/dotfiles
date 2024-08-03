@@ -1,4 +1,5 @@
 # oh my posh
+export PATH=$PATH:/home/mrupp/.local/bin
 eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/config.toml)"
 
 
@@ -17,3 +18,4 @@ alias c='clear'
 # Shell integrations
 #eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+
