@@ -13,6 +13,11 @@ return {
     end,
   },
 
+  {
+    'Exafunction/codeium.vim',
+    event = 'BufEnter'
+  },
+
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",
   -- 	opts = {
