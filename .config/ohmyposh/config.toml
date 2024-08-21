@@ -1,74 +1,185 @@
-#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
-
 version = 2
-final_space = true
-console_title_template = '{{ .Shell }} in {{ .Folder }}'
 
 [[blocks]]
-  type = 'prompt'
-  alignment = 'left'
-  newline = true
+  alignment = "left"
+  type = "prompt"
 
   [[blocks.segments]]
-    type = 'path'
-    style = 'plain'
-    background = 'transparent'
-    foreground = 'blue'
-    template = '{{ .Path }}'
-
-    [blocks.segments.properties]
-      style = 'full'
+    type = "session"
+    style = "plain"
+    template = "╭─[<#ffff55>{{ .UserName }}</><#ff5555>@</><#55ff55>{{ .HostName }}</>]─"
 
   [[blocks.segments]]
-    type = 'git'
-    style = 'plain'
-    foreground = 'p:grey'
-    background = 'transparent'
-    template = ' {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>'
+    type = "path"
+    style = "plain"
+    foreground = "#ff5555"
+    template = "<#ffffff>[</>{{ .Path }}<#ffffff>]</>"
 
-    [blocks.segments.properties]
-      branch_icon = ''
-      commit_icon = '@'
-      fetch_status = true
+  [[blocks.segments]]
+    type = "root"
+    style = "plain"
+    foreground = "#FF9248"
+    template = "<#ffffff>─(</>#<#ffffff>)</>"
 
 [[blocks]]
-  type = 'rprompt'
-  overflow = 'hidden'
+  alignment = "right"
+  type = "prompt"
 
   [[blocks.segments]]
-    type = 'executiontime'
-    style = 'plain'
-    foreground = 'yellow'
-    background = 'transparent'
-    template = '{{ .FormattedMs }}'
-
+    type = "node"
+    style = "plain"
+    foreground = "#3C873A"
+    template = "<#ffffff>(</>{{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}<#ffffff>)</>"
+    
     [blocks.segments.properties]
-      threshold = 5000
-
-[[blocks]]
-  type = 'prompt'
-  alignment = 'left'
-  newline = true
+      fetch_package_manager = true
+      npm_icon = " <#cc3a3a>\ue5fa</> "
+      yarn_icon = " <#348cba>\ue6a7</>"
 
   [[blocks.segments]]
-    type = 'text'
-    style = 'plain'
+    type = "python"
+    style = "plain"
+    foreground = "#FFE873"
+    template = "<#ffffff>(</>{{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "java"
+    style = "plain"
+    foreground = "#ec2729"
+    template = "<#ffffff>(</>{{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "dotnet"
+    style = "plain"
+    foreground = "#0d6da8"
+    template = "<#ffffff>(</>{{ if .Unsupported }}\uf071{{ else }}{{ .Full }}{{ end }}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "go"
+    style = "plain"
+    foreground = "#06aad5"
+    template = "<#ffffff>(</>{{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "rust"
+    style = "plain"
+    foreground = "#925837"
+    template = "<#ffffff>(</>{{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "dart"
+    style = "plain"
+    foreground = "#055b9c"
+    template = "<#ffffff>(</>{{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "angular"
+    style = "plain"
+    foreground = "#ce092f"
+    template = "<#ffffff>(</>{{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "nx"
+    style = "plain"
+    foreground = "#ffffff"
+    template = "<#1e293b>(</>{{ if .Error }}{{ .Error }}{{ else }}Nx {{ .Full }}{{ end }}<#1e293b>)</>"
+
+  [[blocks.segments]]
+    type = "julia"
+    style = "plain"
+    foreground = "#359a25"
+    template = "<#ffffff>(</>{{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "ruby"
+    style = "plain"
+    foreground = "#9c1006"
+    template = "<#ffffff>(</>{{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "azfunc"
+    style = "plain"
+    foreground = "#5398c2"
+    template = "<#ffffff>(</>{{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "aws"
+    style = "plain"
+    foreground = "#faa029"
+    template = "<#ffffff>(</>{{.Profile}}{{if .Region}}@{{.Region}}{{end}}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "kubectl"
+    style = "plain"
+    foreground = "#316ce4"
+    template = "<#ffffff>(</>{{.Context}}{{if .Namespace}} :: {{.Namespace}}{{end}}<#ffffff>)</>"
+
+  [[blocks.segments]]
+    type = "os"
+    style = "plain"
+    foreground = "#ffffff"
+    template = "<#ffffff>(</>{{ if .WSL }}WSL at {{ end }}{{.Icon}}<#ffffff>)─</>"
+    
+    [blocks.segments.properties]
+      linux = "<#ffffff>\ue27f</>"
+      macos = "<#ffffff>\ue27f</>"
+      windows = "<#ffffff>\ue27f</>"
+
+  [[blocks.segments]]
+    type = "battery"
+    style = "plain"
+    foreground = "#ffffff"
+    template = "<#ffffff>[</>{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }}%<#ffffff>]─</>"
+    
     foreground_templates = [
-      "{{if gt .Code 0}}red{{end}}",
-      "{{if eq .Code 0}}magenta{{end}}",
+      "{{if eq \"Charging\" .State.String}}#40c4ff{{end}}",
+      "{{if eq \"Discharging\" .State.String}}#FFFB38{{end}}",
+      "{{if eq \"Full\" .State.String}}#33DD2D{{end}}"
     ]
-    background = 'transparent'
-    template = '❯'
+    
+    [blocks.segments.properties]
+      charged_icon = "\uf240 "
+      charging_icon = "\uf1e6 "
+      discharging_icon = "\ue234 "
 
-[transient_prompt]
-  foreground_templates = [
-    "{{if gt .Code 0}}red{{end}}",
-    "{{if eq .Code 0}}magenta{{end}}",
-  ]
-  background = 'transparent'
-  template = '❯ '
+  [[blocks.segments]]
+    type = "time"
+    style = "plain"
+    foreground = "#55ffff"
+    template = "<#ffffff>[</>\uf073{{ .CurrentDate | date .Format }}<#ffffff>]</>"
+    
+    [blocks.segments.properties]
+      time_format = "_2,15:04"
 
-[secondary_prompt]
-  foreground = 'magenta'
-  background = 'transparent'
-  template = '❯❯ '
+[[blocks]]
+  alignment = "left"
+  type = "prompt"
+  newline = true
+
+  [[blocks.segments]]
+    type = "text"
+    style = "plain"
+    template = "╰─"
+
+  [[blocks.segments]]
+    type = "git"
+    style = "plain"
+    foreground = "#e0f8ff"
+    template = "<#ffffff>[</>{{ .HEAD }}{{ if .Staging.Changed }}<#00AA00> ● {{ .Staging.String }}</>{{ end }}{{ if .Working.Changed }}<#D75F00> ● {{ .Working.String }}</>{{ end }}<#ffffff>]-</>"
+    
+    [blocks.segments.properties]
+      branch_icon = "\ue725 "
+      fetch_status = true
+      fetch_upstream_icon = true
+
+  [[blocks.segments]]
+    type = "status"
+    style = "plain"
+    foreground = "#ecf7fa"
+    template = "\ue285\ueb9e "
+    
+    foreground_templates = ["{{ if gt .Code 0 }}#ef5350{{ end }}"]
+    
+    [blocks.segments.properties]
+      always_enabled = true
+
