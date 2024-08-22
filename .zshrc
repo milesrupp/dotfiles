@@ -2,16 +2,17 @@
 export PATH=$PATH:/home/mrupp/.local/bin
 eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/config.toml)"
 
-# Completion system
-autoload -U compinit
-compinit
+plugins=(
+  git
+  colorize
+  colored-man-pages
+  tmux
+  python
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
 
-# Completion styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste up-line-or-search down-line-or-search expand-or-complete accept-line push-line-or-edit)
 
 # Aliases
 alias ls='ls --color'
@@ -22,11 +23,12 @@ alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
 # Shell integrations
-# eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
-<<<<<<< HEAD
-=======
 # vi mode
 set -o vi
->>>>>>> ab74549 (Updated zsrch and ohmyposh config.toml)
+
+# Set ZSH path and source oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
+source $ZSH/oh-my-zsh.sh
+
